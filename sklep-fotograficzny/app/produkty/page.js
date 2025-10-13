@@ -18,7 +18,7 @@ export default function ProduktyPage() {
           <div key={p._id} className="bg-white shadow-md rounded-xl p-4 text-center hover:shadow-lg transition">
             <h3 className="font-semibold text-lg mb-1">{p.marka} {p.model}</h3>
             <p className="text-gray-600">Cena: <b>{p.cena} zł</b></p>
-            <p className="text-gray-500">Na stanie: {p.ilosc}</p>
+            <p className="text-gray-500">Na stanie: {p.ilosc_na_magazynie}</p>
 
             {p.matryca && <p className="text-sm text-gray-700 mt-2">Matryca: {p.matryca}</p>}
             {p.ogniskowa && <p className="text-sm text-gray-700">Ogniskowa: {p.ogniskowa}</p>}
