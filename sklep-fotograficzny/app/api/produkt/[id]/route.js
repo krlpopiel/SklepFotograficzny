@@ -1,7 +1,8 @@
 import { ObjectId } from "mongodb";
 import clientPromise from "@/lib/mongodb";
 
-export async function GET(request, { params }) {
+export async function GET(request, props) {
+  const params = await props.params;
   const { id } = params;
   const client = await clientPromise;
   const db = client.db("sklep_fotograficzny");
