@@ -1,16 +1,14 @@
-"use client";
-import { useEffect, useState } from "react";
-import Form from 'next/form'
+import clientPromise from "@/lib/mongodb";
 import Link from "next/link";
+import Form from "next/form"
 
-export default function ProduktyPage() {
-  const [produkty, setProdukty] = useState({ aparaty: [], obiektywy: [], filmy: [] });
+export default async function ProduktyPage() {
+  const client = await clientPromise;
+  const db = client.db("sklep_fotograficzny");
 
-  useEffect(() => {
-    fetch("/api/produkty")
-      .then((res) => res.json())
-      .then((data) => setProdukty(data));
-  }, []);
+  const aparaty = await db.collection("aparaty").find({}).toArray();
+  const obiektywy = await db.collection("obiektywy").find({}).toArray();
+  const filmy = await db.collection("filmy").find({}).toArray();
 
   const Sekcja = ({ tytul, dane }) => (
     <section className="mb-12">
@@ -43,9 +41,9 @@ export default function ProduktyPage() {
         <button type="submit" className="btn-primary">Szukaj</button>
       </Form>
       <br></br>
-      <Sekcja tytul="Aparaty" dane={produkty.aparaty} />
-      <Sekcja tytul="Obiektywy" dane={produkty.obiektywy} />
-      <Sekcja tytul="Filmy 35mm" dane={produkty.filmy} />
+      <Sekcja tytul="Aparaty" dane={aparaty} />
+      <Sekcja tytul="Obiektywy" dane={obiektywy} />
+      <Sekcja tytul="Filmy 35mm" dane={filmy} />
     </main>
   );
 }
