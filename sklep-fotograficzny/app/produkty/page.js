@@ -37,7 +37,7 @@ export default async function ProduktyPage() {
       <br></br>
       <Form action="/szukaj">
         <label htmlFor="szukane" className="text-2xl font-bold mb-4 border-b border-gray-300 pb-2">Wpisz hasło do wyszukania:</label>
-        <input type="text" id="szukane" name="szukane" className="input-primary mt-2 mb-2"></input>
+        <input type="text" id="szukane" name="szukane" className="input-primary mt-2 mb-2" required></input>
         <button type="submit" className="btn-primary">Szukaj</button>
       </Form>
       <br></br>

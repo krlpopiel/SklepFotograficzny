@@ -1,10 +1,11 @@
 "use client";
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
+import { useCart } from "@/context/CartContext";
 
 export default function ProduktPage({ params }) {
   const { id } = use(params);
-
+  const { addToCart } = useCart();
   const [produkt, setProdukt] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -40,6 +41,13 @@ export default function ProduktPage({ params }) {
     );
   }
 
+  const handleAddToCart = () => {
+    if (produkt) {
+      addToCart(produkt);
+      alert(`${produkt.marka} ${produkt.model} dodany do koszyka!`);
+    }
+  };
+
   return (
     <main className="p-6 max-w-3xl mx-auto bg-white shadow-lg rounded-xl">
       <h1 className="text-3xl font-bold mb-4">
@@ -65,6 +73,13 @@ export default function ProduktPage({ params }) {
         </div>
       )}
 
+      <button 
+        onClick={handleAddToCart} 
+        className="btn-primary mt-4" 
+      >
+        Dodaj do koszyka
+      </button>
+      
       <Link
         href="/produkty"
         className="inline-block mt-6 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition"
