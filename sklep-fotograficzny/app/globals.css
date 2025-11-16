@@ -41,6 +41,7 @@ a:hover {
 
 .btn-primary:hover {
   background-color: var(--primary-hover);
+  color: white;
 }
 
 .container {
