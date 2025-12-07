@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type AparatyMetadane {
+  nagrywanie_video String
+  rozdzielczosc    String
+  typ_baterii      String
+  typ_matrycy      String
+  waga             String
+  wymiary          String
+}
+
+type FilmyMetadane {
+  czu_o__      String @map("czułość")
+  dost_pno__   String @map("dostępność")
+  format       String
+  producent    String
+  typ          String
+  typ_podstawy String
+}
+
+type ObiektywyMetadane {
+  maksymalna_przyslona String
+  stabilizacja         String
+  typ_mocowania        String
+  waga                 String
+  wymiary              String
+  zakres_ogniskowej    String
+}
+
+model aparaty {
+  id                 String          @id @default(auto()) @map("_id") @db.ObjectId
+  cena               Float
+  ilosc_na_magazynie Int
+  marka              String
+  metadane           AparatyMetadane
+  model              String
+}
+
+model filmy {
+  id                 String        @id @default(auto()) @map("_id") @db.ObjectId
+  cena               Float
+  ilosc_na_magazynie Int
+  marka              String
+  metadane           FilmyMetadane
+  model              String
+}
+
+model obiektywy {
+  id                 String            @id @default(auto()) @map("_id") @db.ObjectId
+  cena               Float
+  ilosc_na_magazynie Int
+  marka              String
+  metadane           ObiektywyMetadane
+  model              String
+}

@@ -1,45 +1,50 @@
-import clientPromise from "@/lib/mongodb";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(req) {
-  const client = await clientPromise;
-  const db = client.db("sklep_fotograficzny");
-
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("query");
 
   if (query) {
-    const regex = new RegExp(query, "i");
+    const searchFilter = { contains: query, mode: "insensitive" };
 
-    const aparaty = await db.collection("aparaty").find({
-      $or: [
-        { marka: regex },
-        { model: regex },
-        { "metadane.typ_matrycy": regex }
-      ]
-    }).toArray();
-
-    const obiektywy = await db.collection("obiektywy").find({
-      $or: [
-        { marka: regex },
-        { model: regex },
-        { "metadane.zakres_ogniskowej": regex }
-      ]
-    }).toArray();
-
-    const filmy = await db.collection("filmy").find({
-      $or: [
-        { marka: regex },
-        { model: regex },
-        { "metadane.czułość": regex }
-      ]
-    }).toArray();
+    const [aparaty, obiektywy, filmy] = await Promise.all([
+      prisma.aparaty.findMany({
+        where: {
+          OR: [
+            { marka: searchFilter },
+            { model: searchFilter },
+            { metadane: { is: { typ_matrycy: searchFilter } } }
+          ],
+        },
+      }),
+      prisma.obiektywy.findMany({
+        where: {
+          OR: [
+            { marka: searchFilter },
+            { model: searchFilter },
+            { metadane: { is: { zakres_ogniskowej: searchFilter } } }
+          ],
+        },
+      }),
+      prisma.filmy.findMany({
+        where: {
+          OR: [
+            { marka: searchFilter },
+            { model: searchFilter },
+            { metadane: { is: { czu_o__: searchFilter } } }
+          ],
+        },
+      }),
+    ]);
 
     return Response.json([...aparaty, ...obiektywy, ...filmy]);
   }
 
-  const aparaty = await db.collection("aparaty").find({}).toArray();
-  const obiektywy = await db.collection("obiektywy").find({}).toArray();
-  const filmy = await db.collection("filmy").find({}).toArray();
+  const [aparaty, obiektywy, filmy] = await Promise.all([
+    prisma.aparaty.findMany(),
+    prisma.obiektywy.findMany(),
+    prisma.filmy.findMany(),
+  ]);
 
   return Response.json({ aparaty, obiektywy, filmy });
 }

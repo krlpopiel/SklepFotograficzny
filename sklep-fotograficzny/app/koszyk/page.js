@@ -56,7 +56,7 @@ export default function KoszykPage() {
 
         {cartItems.map((item) => (
           <div
-            key={item._id}
+            key={item.id} 
             className="grid grid-cols-2 md:grid-cols-5 gap-4 items-center border-b py-4"
           >
             <div className="col-span-2">
@@ -73,16 +73,21 @@ export default function KoszykPage() {
             <div className="text-center">
               <div className="flex items-center justify-center space-x-2">
                 <button
-                  onClick={() => removeFromCart(item._id)}
-                  className="bg-gray-200 hover:bg-gray-300 rounded-full w-8 h-8 font-bold"
+                  onClick={() => removeFromCart(item.id)}
+                  disabled={item.quantity <= 1}
+                  className={`rounded-full w-8 h-8 font-bold flex items-center justify-center transition
+                    ${item.quantity <= 1 
+                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                      : 'bg-gray-200 hover:bg-gray-300 text-black'
+                    }`}
                 >
                   -
                 </button>
                 <input
                   type="number"
                   min="1"
-                  defaultValue={item.quantity}
-                  onBlur={(e) => handleQuantityBlur(item._id, e.target.value)}
+                  value={item.quantity} 
+                  onChange={(e) => handleQuantityBlur(item.id, e.target.value)}
                   className="input-primary text-center"
                   style={{ maxWidth: '80px', padding: '0.5rem' }} 
                 />
@@ -94,7 +99,7 @@ export default function KoszykPage() {
                 </button>
               </div>
               <button
-                onClick={() => handleRemoveItem(item._id, `${item.marka} ${item.model}`)}
+                onClick={() => handleRemoveItem(item.id, `${item.marka} ${item.model}`)}
                 className="text-sm text-red-500 hover:underline mt-2"
               >
                 Usuń

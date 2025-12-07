@@ -23,10 +23,11 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product) => {
     setCartItems(prevItems => {
-      const itemExists = prevItems.find(item => item._id === product._id);
+      const itemExists = prevItems.find(item => item.id === product.id);
+      
       if (itemExists) {
         return prevItems.map(item =>
-          item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
         );
       } else {
         return [...prevItems, { ...product, quantity: 1 }];
@@ -36,14 +37,15 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = (productId) => {
     setCartItems(prevItems => {
-      const itemExists = prevItems.find(item => item._id === productId);
+      const itemExists = prevItems.find(item => item.id === productId);
+      
       if (itemExists && itemExists.quantity > 1) {
         return prevItems.map(item =>
-          item._id === productId ? { ...item, quantity: item.quantity - 1 } : item
+          item.id === productId ? { ...item, quantity: item.quantity - 1 } : item
         );
-      } else {
-        return prevItems.filter(item => item._id !== productId);
-      }
+      } 
+      
+      return prevItems; 
     });
   };
   
@@ -52,18 +54,18 @@ export const CartProvider = ({ children }) => {
     
     if (isNaN(quantity) || quantity < 1) {
       setCartItems(prevItems => prevItems.map(item =>
-        item._id === productId ? { ...item, quantity: 1 } : item
+        item.id === productId ? { ...item, quantity: 1 } : item
       ));
       return;
     }
     
     setCartItems(prevItems => prevItems.map(item =>
-      item._id === productId ? { ...item, quantity: quantity } : item
+      item.id === productId ? { ...item, quantity: quantity } : item
     ));
   };
   
   const removeItemCompletely = (productId) => {
-    setCartItems(prevItems => prevItems.filter(item => item._id !== productId));
+    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
   };
 
   const clearCart = () => {
