@@ -1,26 +1,29 @@
-import { ObjectId } from "mongodb";
-import clientPromise from "@/lib/mongodb";
+import { prisma } from "@/lib/prisma";
 
-export async function GET(request, props) {
-  const params = await props.params;
-  const { id } = params;
-  const client = await clientPromise;
-  const db = client.db("sklep_fotograficzny");
+export async function GET(request, { params }) {
+  const { id } = await params;
 
-  const kolekcje = ["aparaty", "obiektywy", "filmy"];
-  let produkt = null;
+  if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+     return Response.json({ error: "Nieprawidłowe ID" }, { status: 400 });
+  }
 
-  for (const nazwa of kolekcje) {
-    const znaleziony = await db.collection(nazwa).findOne({ _id: new ObjectId(id) });
-    if (znaleziony) {
-      produkt = znaleziony;
-      break;
+  try {
+    let produkt = await prisma.aparaty.findUnique({ where: { id } });
+    
+    if (!produkt) {
+      produkt = await prisma.obiektywy.findUnique({ where: { id } });
     }
-  }
+    if (!produkt) {
+      produkt = await prisma.filmy.findUnique({ where: { id } });
+    }
 
-  if (!produkt) {
-    return new Response(JSON.stringify({ error: "Nie znaleziono produktu" }), { status: 404 });
-  }
+    if (!produkt) {
+      return Response.json({ error: "Nie znaleziono produktu" }, { status: 404 });
+    }
 
-  return new Response(JSON.stringify(produkt), { status: 200 });
+    return Response.json(produkt);
+  } catch (error) {
+    console.error(error);
+    return Response.json({ error: "Błąd serwera" }, { status: 500 });
+  }
 }
