@@ -5,46 +5,24 @@ export async function GET(req) {
   const query = searchParams.get("query");
 
   if (query) {
-    const searchFilter = { contains: query, mode: "insensitive" };
+    const terms = query.split(" ").filter((term) => term.trim() !== "");
 
-    const [aparaty, obiektywy, filmy] = await Promise.all([
-      prisma.aparaty.findMany({
-        where: {
-          OR: [
-            { marka: searchFilter },
-            { model: searchFilter },
-            { metadane: { is: { typ_matrycy: searchFilter } } }
-          ],
-        },
-      }),
-      prisma.obiektywy.findMany({
-        where: {
-          OR: [
-            { marka: searchFilter },
-            { model: searchFilter },
-            { metadane: { is: { zakres_ogniskowej: searchFilter } } }
-          ],
-        },
-      }),
-      prisma.filmy.findMany({
-        where: {
-          OR: [
-            { marka: searchFilter },
-            { model: searchFilter },
-            { metadane: { is: { czu_o__: searchFilter } } }
-          ],
-        },
-      }),
-    ]);
+    const searchArgs = {
+      AND: terms.map((term) => ({
+        OR: [
+          { marka: { contains: term, mode: "insensitive" } },
+          { model: { contains: term, mode: "insensitive" } },
+          { kategoria: { contains: term, mode: "insensitive" } },
+        ],
+      })),
+    };
 
-    return Response.json([...aparaty, ...obiektywy, ...filmy]);
+    const produkty = await prisma.produkt.findMany({
+      where: searchArgs,
+    });
+
+    return Response.json([...produkty]);
   }
-
-  const [aparaty, obiektywy, filmy] = await Promise.all([
-    prisma.aparaty.findMany(),
-    prisma.obiektywy.findMany(),
-    prisma.filmy.findMany(),
-  ]);
-
-  return Response.json({ aparaty, obiektywy, filmy });
+  
+  return Response.json([]);
 }

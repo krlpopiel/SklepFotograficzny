@@ -61,3 +61,16 @@ model obiektywy {
   metadane           ObiektywyMetadane
   model              String
 }
+
+
+model Produkt {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  kategoria          String   
+  marka              String
+  model              String
+  cena               Float
+  ilosc_na_magazynie Int
+  metadane           Json     
+  
+  @@map("produkty") 
+}
