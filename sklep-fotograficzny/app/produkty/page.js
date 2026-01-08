@@ -34,9 +34,9 @@ const Sekcja = ({ tytul, dane }) => {
 
 export default async function ProduktyPage() {
   const [aparaty, obiektywy, filmy] = await Promise.all([
-    prisma.aparaty.findMany(),
-    prisma.obiektywy.findMany(),
-    prisma.filmy.findMany(),
+    prisma.produkt.findMany({ where: { kategoria: 'aparaty' } }),
+    prisma.produkt.findMany({ where: { kategoria: 'obiektywy' } }),
+    prisma.produkt.findMany({ where: { kategoria: 'filmy' } }),
   ]);
 
   return (

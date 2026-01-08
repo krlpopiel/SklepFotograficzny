@@ -8,14 +8,7 @@ export async function GET(request, { params }) {
   }
 
   try {
-    let produkt = await prisma.aparaty.findUnique({ where: { id } });
-    
-    if (!produkt) {
-      produkt = await prisma.obiektywy.findUnique({ where: { id } });
-    }
-    if (!produkt) {
-      produkt = await prisma.filmy.findUnique({ where: { id } });
-    }
+    let produkt = await prisma.produkt.findUnique({ where: { id } });
 
     if (!produkt) {
       return Response.json({ error: "Nie znaleziono produktu" }, { status: 404 });
