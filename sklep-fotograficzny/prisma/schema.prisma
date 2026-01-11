@@ -46,3 +46,12 @@ model ProduktyZamowienia{
   cenaProduktu  Float
   ilosc         Int
 }
+
+model SlownikOpcji {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  kategoria String 
+  pole      String 
+  wartosc   String 
+
+  @@unique([kategoria, pole, wartosc]) 
+}

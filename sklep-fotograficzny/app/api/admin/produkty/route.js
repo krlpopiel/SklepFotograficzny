@@ -19,6 +19,12 @@ async function czyJestAdminem() {
   }
 }
 
+export async function GET() {
+    if (!await czyJestAdminem()) return NextResponse.json([], { status: 403 });
+    const produkty = await prisma.produkt.findMany({ orderBy: { id: 'desc' } });
+    return NextResponse.json(produkty);
+}
+
 export async function POST(request) {
   if (!await czyJestAdminem()) {
     return NextResponse.json({ blad: 'Brak uprawnień administratora' }, { status: 403 });
@@ -51,6 +57,26 @@ export async function POST(request) {
     console.error("Błąd dodawania produktu:", error);
     return NextResponse.json({ blad: 'Błąd serwera' }, { status: 500 });
   }
+}
+
+export async function PUT(request) {
+    if (!await czyJestAdminem()) return NextResponse.json({ blad: 'Brak uprawnień' }, { status: 403 });
+    
+    try {
+      const body = await request.json();
+      const { id, ...reszta } = body;
+      
+      const walidacja = ProductSchema.safeParse(reszta);
+      if (!walidacja.success) return NextResponse.json({ blad: walidacja.error.flatten() }, { status: 400 });
+  
+      const produkt = await prisma.produkt.update({
+          where: { id },
+          data: walidacja.data
+      });
+      return NextResponse.json(produkt);
+    } catch (error) {
+      return NextResponse.json({ blad: 'Błąd edycji' }, { status: 500 });
+    }
 }
 
 export async function DELETE(request) {
