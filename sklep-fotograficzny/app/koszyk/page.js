@@ -123,7 +123,7 @@ export default function KoszykPage() {
             <h3 className="text-2xl font-bold">
               Łącznie: {getCartTotal()} zł
             </h3>
-            <Link href="/checkout" className="btn-primary inline-block mt-4">
+            <Link href="/kasa" className="btn-primary inline-block mt-4">
               Przejdź do kasy
             </Link>
           </div>
