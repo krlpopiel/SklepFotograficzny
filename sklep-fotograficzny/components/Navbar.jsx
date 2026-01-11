@@ -74,6 +74,15 @@ export default function Navbar() {
           <div className="relative">
             {!ladowanie && uzytkownik ? (
               <div className="flex items-center gap-3">
+                 {uzytkownik.rola === 'admin' && (
+                   <Link
+                     href="/admin"
+                     className="transition-colors font-bold text-yellow-400 hover:text-yellow-300 border border-yellow-400 px-2 py-0.5 rounded"
+                   >
+                     Panel Admina
+                   </Link>
+                 )}
+
                  <Link
                     href="/konto"
                     className="transition-colors font-medium"
@@ -152,6 +161,12 @@ export default function Navbar() {
           {/* Mobilne logowanie/wylogowanie */}
           {!ladowanie && uzytkownik ? (
               <>
+                {uzytkownik.rola === 'admin' && (
+                   <Link href="/admin" onClick={() => setIsOpen(false)} className="text-lg w-full text-center py-2 hover:bg-gray-800 text-yellow-400 font-bold">
+                     Panel Admina
+                   </Link>
+                )}
+                
                 <Link href="/konto" onClick={() => setIsOpen(false)} className="text-lg w-full text-center py-2 hover:bg-gray-800">
                   Konto
                 </Link>
