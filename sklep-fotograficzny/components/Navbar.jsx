@@ -11,40 +11,13 @@ export default function Navbar() {
   const [isMounted, setIsMounted] = useState(false); 
   
   const { cartItems } = useCart();
-  
-  const { uzytkownik, zaloguj, wyloguj, zarejestruj, ladowanie } = uzyjUzytkownika();
-
-  const [czyFormularzOtwarty, ustawCzyFormularzOtwarty] = useState(false);
-  const [trybRejestracji, ustawTrybRejestracji] = useState(false);
-  const [daneFormularza, ustawDaneFormularza] = useState({ imie: '', email: '', haslo: '' });
-  const [blad, ustawBlad] = useState('');
+  const { uzytkownik, wyloguj, ladowanie } = uzyjUzytkownika();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   const totalItems = isMounted ? (cartItems || []).reduce((acc, item) => acc + item.quantity, 0) : 0;
-
-  const obsluzZmianeInputa = (e) => {
-    ustawDaneFormularza({ ...daneFormularza, [e.target.name]: e.target.value });
-  };
-
-  const obsluzSubmit = async (e) => {
-    e.preventDefault();
-    ustawBlad('');
-    try {
-      if (trybRejestracji) {
-        await zarejestruj(daneFormularza.imie, daneFormularza.email, daneFormularza.haslo);
-        ustawTrybRejestracji(false);
-        ustawBlad('Konto utworzone! Zaloguj się.');
-      } else {
-        await zaloguj(daneFormularza.email, daneFormularza.haslo);
-        ustawCzyFormularzOtwarty(false);
-      }
-    } catch (err) {
-      ustawBlad(err.message);
-    }
-  };
 
   return (
     <nav
@@ -101,7 +74,15 @@ export default function Navbar() {
           <div className="relative">
             {!ladowanie && uzytkownik ? (
               <div className="flex items-center gap-3">
-                 <span className="text-sm font-semibold" style={{ color: 'var(--primary)' }}>{uzytkownik.imie}</span>
+                 <Link
+                    href="/konto"
+                    className="transition-colors font-medium"
+                    style={{ color: 'var(--background)' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--primary-hover)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--background)')}
+                  >
+                    Konto
+                 </Link>
                  <button 
                    onClick={wyloguj}
                    className="text-sm bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded transition-colors"
@@ -110,86 +91,15 @@ export default function Navbar() {
                  </button>
               </div>
             ) : (
-              <div className="relative">
-                <button
-                  onClick={() => ustawCzyFormularzOtwarty(!czyFormularzOtwarty)}
-                  className="transition-colors font-medium flex items-center gap-1"
-                  style={{ color: 'var(--background)' }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--primary-hover)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--background)')}
-                >
-                  Konto
-                </button>
-
-                {/* Dropdown Formularza */}
-                {czyFormularzOtwarty && (
-                  <div className="absolute right-0 mt-4 w-80 bg-white text-gray-800 rounded-lg shadow-xl p-5 border border-gray-200 z-50 animate-in fade-in slide-in-from-top-2">
-                    <h3 className="text-lg font-bold mb-4 border-b pb-2 text-gray-800">
-                      {trybRejestracji ? 'Załóż konto' : 'Zaloguj się'}
-                    </h3>
-                    
-                    {blad && <div className="text-red-600 text-xs mb-3 bg-red-50 p-2 rounded border border-red-200">{blad}</div>}
-
-                    <form onSubmit={obsluzSubmit} className="flex flex-col gap-4">
-                      {trybRejestracji && (
-                        <div>
-                          <input
-                            type="text"
-                            name="imie"
-                            placeholder="Twoje imię"
-                            className="w-full border border-gray-300 p-2 rounded text-sm outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 bg-gray-50 text-black transition-all"
-                            value={daneFormularza.imie}
-                            onChange={obsluzZmianeInputa}
-                            required
-                          />
-                        </div>
-                      )}
-                      <div>
-                        <input
-                          type="email"
-                          name="email"
-                          placeholder="Adres email"
-                          className="w-full border border-gray-300 p-2 rounded text-sm outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 bg-gray-50 text-black transition-all"
-                          value={daneFormularza.email}
-                          onChange={obsluzZmianeInputa}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="password"
-                          name="haslo"
-                          placeholder="Hasło"
-                          className="w-full border border-gray-300 p-2 rounded text-sm outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 bg-gray-50 text-black transition-all"
-                          value={daneFormularza.haslo}
-                          onChange={obsluzZmianeInputa}
-                          required
-                        />
-                      </div>
-                      
-                      <button 
-                        type="submit" 
-                        className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 rounded transition shadow-md hover:shadow-lg active:scale-95"
-                      >
-                        {trybRejestracji ? 'Zarejestruj się' : 'Zaloguj się'}
-                      </button>
-                    </form>
-
-                    <div className="mt-4 text-center text-xs text-gray-500">
-                      {trybRejestracji ? 'Masz już konto?' : 'Nie masz konta?'}
-                      <button 
-                        onClick={() => {
-                          ustawTrybRejestracji(!trybRejestracji);
-                          ustawBlad('');
-                        }}
-                        className="text-blue-600 hover:text-blue-800 ml-1 font-semibold underline decoration-blue-300 hover:decoration-blue-800"
-                      >
-                         {trybRejestracji ? 'Zaloguj się' : 'Zarejestruj się'}
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <Link
+                href="/logowanie"
+                className="transition-colors font-medium flex items-center gap-1"
+                style={{ color: 'var(--background)' }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--primary-hover)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--background)')}
+              >
+                Zaloguj się
+              </Link>
             )}
           </div>
 
@@ -241,13 +151,18 @@ export default function Navbar() {
           
           {/* Mobilne logowanie/wylogowanie */}
           {!ladowanie && uzytkownik ? (
-              <button onClick={() => { wyloguj(); setIsOpen(false); }} className="text-red-400 text-lg w-full text-center py-2 hover:bg-gray-800">
-                Wyloguj ({uzytkownik.imie})
-              </button>
+              <>
+                <Link href="/konto" onClick={() => setIsOpen(false)} className="text-lg w-full text-center py-2 hover:bg-gray-800">
+                  Konto
+                </Link>
+                <button onClick={() => { wyloguj(); setIsOpen(false); }} className="text-red-400 text-lg w-full text-center py-2 hover:bg-gray-800">
+                  Wyloguj ({uzytkownik.imie})
+                </button>
+              </>
           ) : (
-             <button onClick={() => { ustawCzyFormularzOtwarty(true); setIsOpen(false); }} className="text-yellow-400 text-lg w-full text-center py-2 hover:bg-gray-800">
+             <Link href="/logowanie" onClick={() => setIsOpen(false)} className="text-yellow-400 text-lg w-full text-center py-2 hover:bg-gray-800">
                 Zaloguj się
-             </button>
+             </Link>
           )}
 
           <Link href="/koszyk" onClick={() => setIsOpen(false)} className="relative font-bold text-lg w-full text-center py-2 hover:bg-gray-800 flex justify-center items-center gap-2" style={{ color: 'var(--primary)' }}>
