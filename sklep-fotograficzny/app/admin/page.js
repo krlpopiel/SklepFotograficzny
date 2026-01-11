@@ -99,7 +99,7 @@ export default function AdminPage() {
       {/* PRAWA KOLUMNA: Treść */}
       <section className="md:col-span-9 lg:col-span-10 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden min-h-[500px]">
         
-        {/* --- 1. ZAMÓWIENIA --- */}
+        {/* --- ZAMÓWIENIA --- */}
         {aktywnaZakladka === "zamowienia" && (
           <div className="p-0">
             <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
@@ -112,41 +112,60 @@ export default function AdminPage() {
                 <thead className="bg-slate-50 text-slate-500 uppercase text-xs font-semibold tracking-wider">
                   <tr>
                     <th className="px-6 py-3">ID / Data</th>
-                    <th className="px-6 py-3">Kwota</th>
+                    <th className="px-6 py-3">Klient</th>
                     <th className="px-6 py-3">Status</th>
+                    <th className="px-6 py-3">Kwota</th>
                     <th className="px-6 py-3 text-right">Akcje</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {zamowienia.length === 0 ? (
-                    <tr><td colSpan="4" className="p-8 text-center text-slate-400">Brak zamówień</td></tr>
+                    <tr><td colSpan="5" className="p-8 text-center text-slate-400">Brak zamówień</td></tr>
                   ) : (
                     zamowienia.map((z) => (
-                      <tr key={z.id} className="hover:bg-slate-50 transition-colors">
+                      <tr key={z.id} className="hover:bg-slate-50 transition-colors group">
                         <td className="px-6 py-4">
                           <div className="font-mono text-xs text-slate-400 mb-1">#{z.id.slice(-6)}</div>
                           <div className="font-medium text-slate-700">{new Date(z.dataZamowienia).toLocaleDateString()}</div>
                         </td>
-                        <td className="px-6 py-4 font-bold text-slate-900">{z.sumaCalkowita.toFixed(2)} zł</td>
+                        <td className="px-6 py-4 text-slate-600">
+                             {z.uzytkownik} <br/>
+                             <span className="text-[10px] text-slate-400">({z.metodaPlatnosci || 'Online'})</span>
+                        </td>
                         <td className="px-6 py-4">
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            z.status === "zrealizowane" ? "bg-green-100 text-green-800" :
-                            z.status === "anulowane" ? "bg-red-100 text-red-800" :
-                            "bg-yellow-100 text-yellow-800"
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border ${
+                            z.status === "zrealizowane" ? "bg-green-100 text-green-700 border-green-200" :
+                            z.status === "anulowane" ? "bg-red-100 text-red-700 border-red-200" :
+                            z.status === "oplacone" ? "bg-blue-100 text-blue-700 border-blue-200" :
+                            "bg-amber-50 text-amber-700 border-amber-200"
                           }`}>
                             {z.status.replace(/_/g, ' ')}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-right space-x-2">
-                          {z.status === "oczekuje_na_platnosc" && (
+                        <td className="px-6 py-4 font-bold text-slate-900">{z.sumaCalkowita.toFixed(2)} zł</td>
+                        
+                        <td className="px-6 py-4 text-right flex justify-end gap-2 items-center">
+                          {/* Przycisk podglądu zawsze widoczny */}
+                          <a href={`/admin/zamowienia/${z.id}`} className="text-slate-400 hover:text-black font-medium text-xs border px-2 py-1 rounded hover:bg-white transition">
+                            Szczegóły
+                          </a>
+
+                          {/* Akcje tylko dla OPŁACONYCH (czyli gotowych do realizacji) */}
+                          {z.status === "oplacone" && (
                             <>
-                              <button onClick={() => zmienStatusZamowienia(z.id, "zrealizowane")} className="text-xs font-medium text-green-600 hover:text-green-800 border border-green-200 hover:bg-green-50 px-3 py-1 rounded transition-colors">
-                                Zatwierdź
-                              </button>
-                              <button onClick={() => zmienStatusZamowienia(z.id, "anulowane")} className="text-xs font-medium text-red-600 hover:text-red-800 border border-red-200 hover:bg-red-50 px-3 py-1 rounded transition-colors">
-                                Odrzuć
+                              <button 
+                                onClick={() => zmienStatusZamowienia(z.id, "w_realizacji")} 
+                                className="text-xs font-bold text-white bg-green-600 hover:bg-green-700 px-3 py-1 rounded shadow-sm transition-colors"
+                                title="Przekaż do realizacji (pakowanie)"
+                              >
+                                Realizuj
                               </button>
                             </>
+                          )}
+                          
+                          {/* Dla oczekujących można np. dać opcję anuluj jeśli nie opłacone długo */}
+                          {z.status === "oczekuje_na_platnosc" && (
+                             <span className="text-[10px] text-slate-400 italic">Czeka na wpłatę</span>
                           )}
                         </td>
                       </tr>

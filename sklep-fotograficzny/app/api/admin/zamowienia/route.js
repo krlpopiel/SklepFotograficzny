@@ -37,12 +37,38 @@ export async function PATCH(request) {
   const { id, status } = body;
 
   try {
+    const aktualneZamowienie = await prisma.zamowienie.findUnique({
+      where: { id }
+    });
+
+    if (!aktualneZamowienie) {
+      return NextResponse.json({ blad: 'Zamówienie nie istnieje' }, { status: 404 });
+    }
+
+    if (status === 'anulowane' && aktualneZamowienie.status !== 'anulowane') {
+      
+      const pozycjeZamowienia = await prisma.produktyZamowienia.findMany({
+        where: { idZamowienia: id }
+      });
+
+      await Promise.all(pozycjeZamowienia.map(pozycja => {
+        return prisma.produkt.update({
+          where: { id: pozycja.idProduktu },
+          data: { 
+            ilosc_na_magazynie: { increment: pozycja.ilosc } 
+          }
+        });
+      }));
+    }
+
     const zaktualizowane = await prisma.zamowienie.update({
       where: { id },
       data: { status }
     });
+
     return NextResponse.json(zaktualizowane);
   } catch (error) {
-    return NextResponse.json({ blad: 'Błąd aktualizacji' }, { status: 500 });
+    console.error("Błąd aktualizacji zamówienia:", error);
+    return NextResponse.json({ blad: 'Błąd aktualizacji lub produkt nie istnieje' }, { status: 500 });
   }
 }
