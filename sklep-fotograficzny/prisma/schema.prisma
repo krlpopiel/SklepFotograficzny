@@ -19,3 +19,12 @@ model Produkt {
   
   @@map("produkty") 
 }
+
+model Uzytkownik {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  imie           String
+  email          String   @unique
+  haslo          String
+  rola           String   @default("uzytkownik") // 'uzytkownik' lub 'admin'
+  dataUtworzenia DateTime @default(now())
+}
