@@ -1,7 +1,9 @@
 {
-    "functions": {
-        ".next/server/app/**": {
-            "includeFiles": "generated/prisma/**"
+    "version": 2,
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/$1"
         }
-    }
+    ]
 }
