@@ -1,16 +1,10 @@
 {
     "functions": {
         "api/**/*.js": {
-            "includeFiles": [
-                "generated/prisma/client/**",
-                "generated/prisma/client/libquery_engine*"
-            ]
+            "includeFiles": "generated/prisma/client/**"
         },
         "api/**/*.mjs": {
-            "includeFiles": [
-                "generated/prisma/client/**",
-                "generated/prisma/client/libquery_engine*"
-            ]
+            "includeFiles": "generated/prisma/client/**"
         }
     }
 }
