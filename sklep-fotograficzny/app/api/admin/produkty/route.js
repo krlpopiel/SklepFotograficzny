@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
@@ -94,4 +95,3 @@ export async function DELETE(request) {
     return NextResponse.json({ blad: 'Nie można usunąć produktu' }, { status: 500 });
   }
 }
-export const runtime = "nodejs";

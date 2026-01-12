@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { zahashujHaslo } from '@/lib/haslo';
@@ -51,4 +52,3 @@ export async function POST(request) {
     );
   }
 }
-export const runtime = "nodejs";

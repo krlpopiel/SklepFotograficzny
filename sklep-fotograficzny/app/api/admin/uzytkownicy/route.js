@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
@@ -59,4 +60,3 @@ export async function PATCH(request) {
     return NextResponse.json({ blad: 'Błąd aktualizacji bazy danych' }, { status: 500 });
   }
 }
-export const runtime = "nodejs";

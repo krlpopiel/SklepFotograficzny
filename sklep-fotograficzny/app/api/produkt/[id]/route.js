@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(request, { params }) {
@@ -20,4 +21,3 @@ export async function GET(request, { params }) {
     return Response.json({ error: "Błąd serwera" }, { status: 500 });
   }
 }
-export const runtime = "nodejs";

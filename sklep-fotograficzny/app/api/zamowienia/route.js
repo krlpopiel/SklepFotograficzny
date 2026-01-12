@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
@@ -84,4 +85,3 @@ export async function POST(request) {
     return NextResponse.json({ blad: error.message || 'Wystąpił błąd podczas składania zamówienia.' }, { status: 500 });
   }
 }
-export const runtime = "nodejs";

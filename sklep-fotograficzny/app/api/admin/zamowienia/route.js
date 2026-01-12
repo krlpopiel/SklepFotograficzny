@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
@@ -72,4 +73,3 @@ export async function PATCH(request) {
     return NextResponse.json({ blad: 'Błąd aktualizacji lub produkt nie istnieje' }, { status: 500 });
   }
 }
-export const runtime = "nodejs";

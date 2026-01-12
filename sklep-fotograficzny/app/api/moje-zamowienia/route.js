@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
@@ -32,4 +33,3 @@ export async function GET() {
     return NextResponse.json({ blad: 'Błąd serwera' }, { status: 500 });
   }
 }
-export const runtime = "nodejs";

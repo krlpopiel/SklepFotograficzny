@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
@@ -99,4 +100,3 @@ export async function DELETE(req) {
     await prisma.slownikOpcji.delete({ where: { id } });
     return NextResponse.json({ sukces: true });
   }
-export const runtime = "nodejs";

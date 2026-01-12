@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 'use client';
 
 import { use, useState } from 'react';
@@ -104,4 +105,3 @@ export default function StronaPlatnosci({ params }) {
     </div>
   );
 }
-export const runtime = "nodejs";

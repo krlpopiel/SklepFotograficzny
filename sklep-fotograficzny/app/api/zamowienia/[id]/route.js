@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
@@ -26,4 +27,3 @@ export async function PATCH(request, { params }) {
     return NextResponse.json({ blad: 'Nie udało się zaktualizować zamówienia' }, { status: 500 });
   }
 }
-export const runtime = "nodejs";

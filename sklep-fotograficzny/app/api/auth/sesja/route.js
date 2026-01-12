@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
@@ -34,4 +35,3 @@ export async function GET() {
     return NextResponse.json({ uzytkownik: null }, { status: 200 });
   }
 }
-export const runtime = "nodejs";
