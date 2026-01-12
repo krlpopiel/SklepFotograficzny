@@ -11,6 +11,13 @@ const nextConfig = {
         });
         return config;
     },
+    experimental: {
+        serverActions: {
+            allowedOrigins: ["*"]
+        },
+        output: "standalone",
+        serverRuntimeConfig: {},
+    }
 };
 
 export default nextConfig;
