@@ -2,6 +2,7 @@
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
+import { Suspense } from "react";
 
 const fetchSearchResults = async (query) => {
   const res = await fetch(`/api/produkty?query=${encodeURIComponent(query)}`);
@@ -10,13 +11,21 @@ const fetchSearchResults = async (query) => {
 };
 
 export default function SzukajPage() {
+  return (
+    <Suspense fallback={<p className="text-center p-6">Wczytywanie...</p>}>
+      <SearchContent />
+    </Suspense>
+  );
+}
+
+function SearchContent() {
   const searchParams = useSearchParams();
   const query = searchParams.get("szukane") || "";
 
   const { data: wyniki, isLoading, isError } = useQuery({
     queryKey: ["search", query],
     queryFn: () => fetchSearchResults(query),
-    enabled: !!query, 
+    enabled: !!query,
   });
 
   return (
