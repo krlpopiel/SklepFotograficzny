@@ -104,3 +104,4 @@ export default function StronaPlatnosci({ params }) {
     </div>
   );
 }
+export const runtime = "nodejs";

@@ -72,3 +72,4 @@ export async function GET(request, props) {
     return NextResponse.json({ blad: 'Błąd serwera' }, { status: 500 });
   }
 }
+export const runtime = "nodejs";

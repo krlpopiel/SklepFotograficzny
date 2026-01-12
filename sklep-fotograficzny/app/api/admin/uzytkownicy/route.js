@@ -59,3 +59,4 @@ export async function PATCH(request) {
     return NextResponse.json({ blad: 'Błąd aktualizacji bazy danych' }, { status: 500 });
   }
 }
+export const runtime = "nodejs";

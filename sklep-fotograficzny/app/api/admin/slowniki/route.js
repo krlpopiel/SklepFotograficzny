@@ -99,3 +99,4 @@ export async function DELETE(req) {
     await prisma.slownikOpcji.delete({ where: { id } });
     return NextResponse.json({ sukces: true });
   }
+export const runtime = "nodejs";

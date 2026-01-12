@@ -10,3 +10,4 @@ export async function POST() {
     { status: 200 }
   );
 }
+export const runtime = "nodejs";

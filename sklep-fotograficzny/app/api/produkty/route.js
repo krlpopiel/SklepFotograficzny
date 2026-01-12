@@ -26,3 +26,4 @@ export async function GET(req) {
   
   return Response.json([]);
 }
+export const runtime = "nodejs";

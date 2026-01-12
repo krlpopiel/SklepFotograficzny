@@ -34,3 +34,4 @@ export async function GET() {
     return NextResponse.json({ uzytkownik: null }, { status: 200 });
   }
 }
+export const runtime = "nodejs";

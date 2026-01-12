@@ -26,3 +26,4 @@ export async function PATCH(request, { params }) {
     return NextResponse.json({ blad: 'Nie udało się zaktualizować zamówienia' }, { status: 500 });
   }
 }
+export const runtime = "nodejs";

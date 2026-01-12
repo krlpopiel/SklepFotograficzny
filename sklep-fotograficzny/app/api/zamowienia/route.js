@@ -84,3 +84,4 @@ export async function POST(request) {
     return NextResponse.json({ blad: error.message || 'Wystąpił błąd podczas składania zamówienia.' }, { status: 500 });
   }
 }
+export const runtime = "nodejs";

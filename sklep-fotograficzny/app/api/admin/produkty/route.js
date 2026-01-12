@@ -94,3 +94,4 @@ export async function DELETE(request) {
     return NextResponse.json({ blad: 'Nie można usunąć produktu' }, { status: 500 });
   }
 }
+export const runtime = "nodejs";
