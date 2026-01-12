@@ -1,5 +1,5 @@
-export const runtime = "nodejs";
 'use client';
+export const runtime = "nodejs";
 
 import { use, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -7,39 +7,39 @@ import { useRouter } from 'next/navigation';
 export default function StronaPlatnosci({ params }) {
   const { id: idZamowienia } = use(params);
   const router = useRouter();
-  
+
   const [stan, ustawStan] = useState('wybor');
   const [metoda, ustawMetode] = useState('blik');
 
   const finalizujPlatnosc = async () => {
     ustawStan('przetwarzanie');
-    
+
     try {
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
-        const res = await fetch('/api/platnosc', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                zamowienieId: idZamowienia,
-                symulacjaStatusu: 'oplacone' 
-            })
-        });
+      const res = await fetch('/api/platnosc', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          zamowienieId: idZamowienia,
+          symulacjaStatusu: 'oplacone'
+        })
+      });
 
-        if (!res.ok) {
-            const err = await res.json();
-            throw new Error(err.blad || 'Błąd przetwarzania płatności');
-        }
-        
-        ustawStan('gotowe');
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        
-        router.push(`/zamowienie-sukces/${idZamowienia}`);
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.blad || 'Błąd przetwarzania płatności');
+      }
+
+      ustawStan('gotowe');
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      router.push(`/zamowienie-sukces/${idZamowienia}`);
 
     } catch (error) {
-        console.error("Błąd płatności:", error);
-        alert(error.message || "Wystąpił błąd podczas przetwarzania płatności.");
-        ustawStan('wybor');
+      console.error("Błąd płatności:", error);
+      alert(error.message || "Wystąpił błąd podczas przetwarzania płatności.");
+      ustawStan('wybor');
     }
   };
 
@@ -50,7 +50,7 @@ export default function StronaPlatnosci({ params }) {
           <h1 className="text-2xl font-bold text-gray-800">Bramka płatności</h1>
           <p className="text-gray-500 mt-2 text-sm">Transakcja bezpieczna</p>
           <div className="mt-4 p-3 bg-blue-50 rounded-lg text-blue-800 font-mono font-medium border border-blue-100">
-             Zamówienie #{idZamowienia}
+            Zamówienie #{idZamowienia}
           </div>
         </div>
 
@@ -72,16 +72,15 @@ export default function StronaPlatnosci({ params }) {
           type="button"
           onClick={finalizujPlatnosc}
           disabled={stan !== 'wybor'}
-          className={`w-full py-4 rounded-xl text-white font-bold text-lg transition-all shadow-md flex justify-center items-center gap-2 ${
-            stan === 'wybor'
+          className={`w-full py-4 rounded-xl text-white font-bold text-lg transition-all shadow-md flex justify-center items-center gap-2 ${stan === 'wybor'
               ? 'bg-blue-600 hover:bg-blue-700 hover:shadow-xl hover:-translate-y-0.5'
-              : stan === 'gotowe' 
-                ? 'bg-green-500 scale-105' 
+              : stan === 'gotowe'
+                ? 'bg-green-500 scale-105'
                 : 'bg-gray-400 cursor-not-allowed'
-          }`}
+            }`}
         >
           {stan === 'wybor' && 'Potwierdź i zapłać'}
-          
+
           {stan === 'przetwarzanie' && (
             <>
               <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
