@@ -1,11 +1,5 @@
 {
     "functions": {
-        "api/**/*.js": {
-            "includeFiles": "generated/prisma/**"
-        },
-        "api/**/*.mjs": {
-            "includeFiles": "generated/prisma/**"
-        },
         ".next/server/app/**": {
             "includeFiles": "generated/prisma/**"
         }
