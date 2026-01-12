@@ -1,5 +1,4 @@
 'use client';
-export const runtime = "nodejs";
 
 import { use, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -73,10 +72,10 @@ export default function StronaPlatnosci({ params }) {
           onClick={finalizujPlatnosc}
           disabled={stan !== 'wybor'}
           className={`w-full py-4 rounded-xl text-white font-bold text-lg transition-all shadow-md flex justify-center items-center gap-2 ${stan === 'wybor'
-              ? 'bg-blue-600 hover:bg-blue-700 hover:shadow-xl hover:-translate-y-0.5'
-              : stan === 'gotowe'
-                ? 'bg-green-500 scale-105'
-                : 'bg-gray-400 cursor-not-allowed'
+            ? 'bg-blue-600 hover:bg-blue-700 hover:shadow-xl hover:-translate-y-0.5'
+            : stan === 'gotowe'
+              ? 'bg-green-500 scale-105'
+              : 'bg-gray-400 cursor-not-allowed'
             }`}
         >
           {stan === 'wybor' && 'Potwierdź i zapłać'}
