@@ -1,4 +1,3 @@
-export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
@@ -35,11 +34,11 @@ export async function POST(request) {
     const wynikTransakcji = await prisma.$transaction(async (tx) => {
       for (const item of koszyk) {
         const produktZBazy = await tx.produkt.findUnique({ where: { id: item.id } });
-        
+
         if (!produktZBazy) {
           throw new Error(`Produkt o ID ${item.id} nie istnieje.`);
         }
-        
+
         if (produktZBazy.ilosc_na_magazynie < item.quantity) {
           throw new Error(`Brak wystarczającej ilości produktu: ${produktZBazy.marka} ${produktZBazy.model}. Dostępne: ${produktZBazy.ilosc_na_magazynie}`);
         }
@@ -47,7 +46,7 @@ export async function POST(request) {
 
       const noweZamowienie = await tx.zamowienie.create({
         data: {
-          uzytkownik: uzytkownikId, 
+          uzytkownik: uzytkownikId,
           status: 'oczekuje_na_platnosc',
           sumaCalkowita: parseFloat(sumaCalkowita),
           metodaWysylki: metodaWysylki,

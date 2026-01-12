@@ -1,4 +1,3 @@
-export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { zahashujHaslo } from '@/lib/haslo';
@@ -33,7 +32,7 @@ export async function POST(request) {
         imie,
         email,
         haslo: bezpieczneHaslo,
-        rola: 'uzytkownik', 
+        rola: 'uzytkownik',
       },
     });
 

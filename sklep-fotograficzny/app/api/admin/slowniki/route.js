@@ -1,4 +1,3 @@
-export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
@@ -22,7 +21,7 @@ async function czyJestAdminem() {
 
 export async function GET(req) {
   if (!await czyJestAdminem()) return NextResponse.json({ blad: 'Brak dostępu' }, { status: 403 });
-  
+
   const { searchParams } = new URL(req.url);
   const kategoria = searchParams.get('kategoria');
 
@@ -37,7 +36,7 @@ export async function POST(req) {
   const { kategoria, pole, wartosc } = await req.json();
 
   if (!wartosc || wartosc.trim() === '') {
-      return NextResponse.json({ blad: 'Wartość nie może być pusta' }, { status: 400 });
+    return NextResponse.json({ blad: 'Wartość nie może być pusta' }, { status: 400 });
   }
 
   const czystaWartosc = wartosc.trim();
@@ -49,22 +48,22 @@ export async function POST(req) {
         pole,
         wartosc: {
           equals: czystaWartosc,
-          mode: 'insensitive' 
+          mode: 'insensitive'
         }
       }
     });
 
     if (istniejacyWpis) {
       return NextResponse.json(
-        { blad: `Wartość "${czystaWartosc}" już istnieje w tym polu.` }, 
-        { status: 409 } 
+        { blad: `Wartość "${czystaWartosc}" już istnieje w tym polu.` },
+        { status: 409 }
       );
     }
 
     const nowaOpcja = await prisma.slownikOpcji.create({
       data: { kategoria, pole, wartosc: czystaWartosc }
     });
-    
+
     return NextResponse.json(nowaOpcja);
 
   } catch (e) {
@@ -74,29 +73,29 @@ export async function POST(req) {
 }
 
 export async function DELETE(req) {
-    if (!await czyJestAdminem()) return NextResponse.json({ blad: 'Brak dostępu' }, { status: 403 });
-  
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get('id');
-  
-    const opcja = await prisma.slownikOpcji.findUnique({ where: { id } });
-    if (!opcja) return NextResponse.json({ blad: 'Opcja nie istnieje' }, { status: 404 });
-  
-    const produkty = await prisma.produkt.findMany({
-      where: { kategoria: opcja.kategoria },
-      select: { metadane: true }
-    });
-  
-    const jestUzywana = produkty.some(p => {
-      return p.metadane && p.metadane[opcja.pole] === opcja.wartosc;
-    });
-  
-    if (jestUzywana) {
-      return NextResponse.json({ 
-        blad: `Nie można usunąć "${opcja.wartosc}", ponieważ jest przypisana do istniejących produktów.` 
-      }, { status: 400 });
-    }
-  
-    await prisma.slownikOpcji.delete({ where: { id } });
-    return NextResponse.json({ sukces: true });
+  if (!await czyJestAdminem()) return NextResponse.json({ blad: 'Brak dostępu' }, { status: 403 });
+
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get('id');
+
+  const opcja = await prisma.slownikOpcji.findUnique({ where: { id } });
+  if (!opcja) return NextResponse.json({ blad: 'Opcja nie istnieje' }, { status: 404 });
+
+  const produkty = await prisma.produkt.findMany({
+    where: { kategoria: opcja.kategoria },
+    select: { metadane: true }
+  });
+
+  const jestUzywana = produkty.some(p => {
+    return p.metadane && p.metadane[opcja.pole] === opcja.wartosc;
+  });
+
+  if (jestUzywana) {
+    return NextResponse.json({
+      blad: `Nie można usunąć "${opcja.wartosc}", ponieważ jest przypisana do istniejących produktów.`
+    }, { status: 400 });
   }
+
+  await prisma.slownikOpcji.delete({ where: { id } });
+  return NextResponse.json({ sukces: true });
+}

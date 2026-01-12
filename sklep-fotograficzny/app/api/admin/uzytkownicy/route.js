@@ -1,4 +1,3 @@
-export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
@@ -31,7 +30,7 @@ export async function GET() {
   const uzytkownicy = await prisma.uzytkownik.findMany({
     select: { id: true, imie: true, email: true, rola: true, dataUtworzenia: true }
   });
-  
+
   return NextResponse.json(uzytkownicy);
 }
 
@@ -45,11 +44,11 @@ export async function PATCH(request) {
 
   if (id === admin.id) {
     return NextResponse.json(
-      { blad: 'Nie możesz odebrać uprawnień administratorskich samemu sobie.' }, 
+      { blad: 'Nie możesz odebrać uprawnień administratorskich samemu sobie.' },
       { status: 400 }
     );
   }
-  
+
   try {
     await prisma.uzytkownik.update({
       where: { id },

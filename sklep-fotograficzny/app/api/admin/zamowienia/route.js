@@ -1,4 +1,3 @@
-export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
@@ -47,7 +46,7 @@ export async function PATCH(request) {
     }
 
     if (status === 'anulowane' && aktualneZamowienie.status !== 'anulowane') {
-      
+
       const pozycjeZamowienia = await prisma.produktyZamowienia.findMany({
         where: { idZamowienia: id }
       });
@@ -55,8 +54,8 @@ export async function PATCH(request) {
       await Promise.all(pozycjeZamowienia.map(pozycja => {
         return prisma.produkt.update({
           where: { id: pozycja.idProduktu },
-          data: { 
-            ilosc_na_magazynie: { increment: pozycja.ilosc } 
+          data: {
+            ilosc_na_magazynie: { increment: pozycja.ilosc }
           }
         });
       }));

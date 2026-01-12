@@ -1,4 +1,3 @@
-export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sprawdzHaslo } from '@/lib/haslo';
@@ -31,11 +30,11 @@ export async function POST(request) {
       );
     }
 
-    const token = await new SignJWT({ 
-        id: uzytkownik.id, 
-        email: uzytkownik.email, 
-        rola: uzytkownik.rola 
-      })
+    const token = await new SignJWT({
+      id: uzytkownik.id,
+      email: uzytkownik.email,
+      rola: uzytkownik.rola
+    })
       .setProtectedHeader({ alg: 'HS256' })
       .setIssuedAt()
       .setExpirationTime('24h')
@@ -46,7 +45,7 @@ export async function POST(request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24, 
+      maxAge: 60 * 60 * 24,
       path: '/',
     });
 

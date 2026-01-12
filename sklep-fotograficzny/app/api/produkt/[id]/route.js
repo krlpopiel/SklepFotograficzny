@@ -1,11 +1,10 @@
-export const runtime = "nodejs";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(request, { params }) {
   const { id } = await params;
 
   if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-     return Response.json({ error: "Nieprawidłowe ID" }, { status: 400 });
+    return Response.json({ error: "Nieprawidłowe ID" }, { status: 400 });
   }
 
   try {

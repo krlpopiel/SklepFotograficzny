@@ -1,4 +1,3 @@
-export const runtime = "nodejs";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(req) {
@@ -24,6 +23,6 @@ export async function GET(req) {
 
     return Response.json([...produkty]);
   }
-  
+
   return Response.json([]);
 }

@@ -1,4 +1,3 @@
-export const runtime = "nodejs";
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
@@ -24,7 +23,7 @@ export async function GET() {
 
   try {
     const zamowienia = await prisma.zamowienie.findMany({
-      where: { uzytkownik: userId }, 
+      where: { uzytkownik: userId },
       orderBy: { dataZamowienia: 'desc' }
     });
 
