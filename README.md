@@ -9,7 +9,7 @@
 **Nowoczesna platforma e-commerce dla entuzjastów fotografii.**
 Kompleksowa aplikacja webowa umożliwiająca zakup aparatów, obiektywów i akcesoriów, wyposażona w zaawansowany panel administracyjny.
 
-[Demo (Live Preview)](#) · [Zgłoś Błąd](issues) · [Prośba o funkcję](issues)
+**Adres strony - [Sklep Fotograficzny](https://sklep-fotograficzny.vercel.app/)**
 
 </div>
 
