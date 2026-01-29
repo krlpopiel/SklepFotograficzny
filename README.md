@@ -1,103 +1,112 @@
-# Sklep Fotograficzny
+# 📷Sklep Fotograficzny
 
 <div align="center">
 
-![Status Projektu](https://img.shields.io/badge/Status-Ukończony-success?style=for-the-badge)
-![Wersja](https://img.shields.io/badge/Wersja-1.0.0-blue?style=for-the-badge)
-![Licencja](https://img.shields.io/badge/Licencja-MIT-yellow?style=for-the-badge)
+**Modern e-commerce platform for photography enthusiasts.**
+A comprehensive web application for purchasing cameras, lenses, and accessories, equipped with an advanced administration panel.
 
-**Nowoczesna platforma e-commerce dla entuzjastów fotografii.**
-Kompleksowa aplikacja webowa umożliwiająca zakup aparatów, obiektywów i akcesoriów, wyposażona w zaawansowany panel administracyjny.
-
-**Adres strony - [Sklep Fotograficzny](https://sklep-fotograficzny.vercel.app/)**
+**Website URL** - [Sklep Fotograficzny](https://sklep-fotograficzny.vercel.app/)
 
 </div>
 
 ---
 
-## 📝 O Projekcie
+## 📝 About the Project
 
-Projekt **Sklep Fotograficzny** to aplikacja typu Full-Stack E-commerce stworzona jako projekt zaliczeniowy. Głównym celem było stworzenie responsywnego, szybkiego i skalowalnego sklepu internetowego wykorzystując najnowsze standardy webowe (Next.js 15, Server Actions, Prisma ORM).
+The **Sklep Fotograficzny** project is a Full-Stack E-commerce application created as a final/capstone project. The main goal was to create a responsive, fast, and scalable online store using the latest web standards (Next.js 15, Server Actions, Prisma ORM).
 
-Aplikacja obsługuje pełną ścieżkę zakupową klienta oraz posiada rozbudowany panel CMS dla administratora do zarządzania asortymentem i zamówieniami.
+The application handles the full customer purchase journey and features an extensive CMS panel for the administrator to manage the inventory and orders.
 
-### ✨ Główne Funkcjonalności
+### ✨ Key Features
 
-#### 👤 Dla Użytkownika (Klienta)
-- **Katalog Produktów:** Przeglądanie aparatów, obiektywów i filmów z filtrowaniem.
-- **Szczegóły Produktu:** Dynamiczne wyświetlanie specyfikacji technicznej w zależności od kategorii.
-- **Koszyk Zakupowy:** Dodawanie, usuwanie i zmiana ilości produktów (Context API).
-- **Proces Zakupowy (Checkout):** Wybór metody dostawy i płatności (symulacja bramki płatniczej).
-- **Konto Użytkownika:** Historia zamówień, podgląd szczegółów i statusów.
-- **Autoryzacja:** Rejestracja i logowanie (JWT).
+#### 👤 For the User (Customer)
 
-#### 🛡️ Dla Administratora
-- **Dashboard:** Przegląd ostatnich zamówień i statystyk.
-- **Zarządzanie Zamówieniami:** Zmiana statusów (Oczekuje -> Opłacone -> Wysłane), anulowanie zamówień ze zwrotem towaru na stan.
-- **CRUD Produktów:** Dodawanie i edycja produktów z dynamicznymi formularzami (zależnymi od kategorii).
-- **Zarządzanie Słownikami:** Definiowanie cech produktów (np. typy matryc, mocowania) dla list rozwijanych.
-- **Użytkownicy:** Zarządzanie rolami użytkowników.
+* **Product Catalog:** Browse cameras, lenses, and films with filtering.
+* **Product Details:** Dynamic display of technical specifications depending on the category.
+* **Shopping Cart:** Adding, removing, and changing product quantities (Context API).
+* **Checkout Process:** Selection of delivery and payment methods (payment gateway simulation).
+* **User Account:** Order history, viewing details and statuses.
+* **Authorization:** Registration and login (JWT).
+
+#### 🛡️ For the Administrator
+
+* **Dashboard:** Overview of recent orders and statistics.
+* **Order Management:** Changing statuses (Pending -> Paid -> Shipped), cancelling orders with stock return.
+* **Product CRUD:** Adding and editing products with dynamic forms (dependent on category).
+* **Dictionary Management:** Defining product attributes (e.g., sensor types, mounts) for dropdown lists.
+* **Users:** Managing user roles.
 
 ---
 
-## 🛠️ Technologie
+## 🛠️ Technologies
 
-Projekt został zbudowany w oparciu o nowoczesny stos technologiczny (Tech Stack):
+The project was built using a modern Tech Stack:
 
 ### Frontend & Backend (Next.js)
-![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-### Baza Danych i ORM
-![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
-### Narzędzia i Biblioteki
-- **Zod:** Walidacja danych wejściowych (frontend i backend).
-- **Jose:** Obsługa tokenów JWT (Json Web Tokens) na krawędzi (Edge compatible).
-- **React Context:** Zarządzanie stanem globalnym (koszyk, użytkownik).
+
+
+### Database and ORM
+
+![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
+
+* **Zod:** Input data validation (frontend and backend).
+* **Jose:** JWT (Json Web Tokens) handling on the Edge.
+* **React Context:** Global state management (cart, user).
 
 ---
 
-## 🚀 Instalacja i Uruchomienie
+## 🚀 Installation and Setup
 
-Aby uruchomić projekt lokalnie, postępuj zgodnie z poniższymi krokami:
+To run the project locally, follow the steps below:
 
-### 1. Klonowanie repozytorium
+### 1. Clone the repository
 
+```bash
 git clone [https://github.com/twoj-nick/sklep-fotograficzny.git](https://github.com/twoj-nick/sklep-fotograficzny.git)
 cd sklep-fotograficzny
 
-### 2. Instalacja zależności
+```
 
+### 2. Install dependencies
+
+```bash
 npm install
 
-### 3. Konfiguracja zmiennych środowiskowych
-Utwórz plik .env w głównym katalogu projektu i uzupełnij go o swoje dane:
+```
 
-Fragment kodu
+### 3. Environment variables configuration
 
-# Połączenie do bazy MongoDB
+Create a `.env` file in the main project directory and fill it with your data:
+
+```env
+# MongoDB database connection
 DATABASE_URL="mongodb+srv://<username>:<password>@cluster.mongodb.net/sklep-db?retryWrites=true&w=majority"
 
-# Sekret do podpisywania tokenów JWT
-JWT_SECRET="twoj-bardzo-tajny-i-dlugi-klucz"
+# Secret for signing JWT tokens
+JWT_SECRET="your-very-secret-and-long-key"
 
-### 4. Konfiguracja Bazy Danych (Prisma)
-Wygeneruj klienta Prisma i wypchnij schemat do bazy danych:
+```
 
+### 4. Database Configuration (Prisma)
 
+Generate the Prisma client and push the schema to the database:
+
+```bash
 npx prisma generate
 npx prisma db push
 
-### 5. (Opcjonalnie) Seedowanie Bazy Danych
-Aby wypełnić bazę przykładowymi produktami i słownikami:
+```
 
+### 5. (Optional) Database Seeding
 
+To populate the database with example products and dictionaries:
+
+```bash
 node prisma/seed.js
-# lub jeśli dodałeś skrypt do package.json:
+# or if you added the script to package.json:
 npm run seed
-#
 
+```
